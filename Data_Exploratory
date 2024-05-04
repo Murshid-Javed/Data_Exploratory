@@ -1,0 +1,107 @@
+# Data Exploratory using Python
+
+import pandas as pd 
+import matplotlib.pyplot as plt
+import seaborn as sb
+
+df = pd.read_excel(r"D:\all data\excel files\world_population_excel_workbook.xlsx")
+
+"D:\all data\excel files\world_population_excel_workbook.xlsx"
+
+df
+
+pd.set_option("display.float_format",lambda x: "%.2f" % x)
+
+df.info()
+
+df.describe()
+
+df
+
+df.isnull().sum()  
+
+df.nunique()
+
+df.sort_values(by ="2022 Population",ascending = False).head(5)
+
+df.sort_values(by ="2022 Population").head(10)
+
+df.corr()
+
+# Assuming 'df' is your DataFrame
+# Identify columns with non-numeric (string) data
+non_numeric_columns = df.select_dtypes(exclude=['float64', 'int64']).columns
+
+# Exclude non-numeric columns from correlation analysis
+numeric_df = df.drop(columns=non_numeric_columns)
+
+# Compute correlation for numeric columns
+correlation_matrix = numeric_df.corr()
+
+
+correlation_matrix.corr()
+
+sb.heatmap(correlation_matrix.corr(),annot = True)
+plt.rcParams['figure.figsize']= (20,8)
+plt.show()
+
+df.groupby('Continent').mean()
+
+df
+
+
+
+# Assuming df is your DataFrame and 'Continent' is a column in df
+# Make sure to replace 'Continent' with the actual name of the column containing continent information
+
+non_numeric_columns = df.select_dtypes(exclude=['float64', 'int64']).columns
+print(non_numeric_columns)
+
+numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
+print(numeric_columns)
+
+# Check if 'Continent' is already in numeric columns
+if 'Continent' not in numeric_columns:
+    numeric_columns = numeric_columns.append(pd.Index(['Continent']))
+
+df_numeric = df[numeric_columns]  # Add 'Continent' column to numeric columns
+result = df_numeric.groupby('Continent').mean().sort_values(by = "2022 Population",ascending = False)
+
+result
+
+
+#--df.select_dtypes(exclude = ["   ","     "].columns
+
+df[df["Continent"]=="Oceania"]
+df[df["Continent"].str.contains("Oceania")]
+
+
+
+result.plot(kind = "line")
+
+rest = result
+
+rest.transpose()
+
+rest.plot()
+
+rest
+
+rest.columns
+
+#rest.groupby(by = "Continent")[[rest.columns[1:8]].mean().sort_values(by = "2022 Population",ascending = False)
+aqib = rest.groupby(by="Continent")[rest.columns[1:8]].mean().sort_values(by="2022 Population", ascending = False)
+
+
+murshid = aqib.transpose()
+
+murshid.plot()
+
+murshid.boxplot(figsize =(20,10))
+
+df.select_dtypes(include = 'number')
+
+df.select_dtypes(include = "float")
+
+df.select_dtypes(include = "object")
+
